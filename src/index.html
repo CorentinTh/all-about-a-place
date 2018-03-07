@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>All about a place</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="./resources/img/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./resources/img/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./resources/img/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./resources/img/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./resources/img/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./resources/img/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./resources/img/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./resources/img/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./resources/img/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./resources/img/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./resources/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./resources/img/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./resources/img/favicons/favicon-16x16.png">
+    <link rel="icon" href="./resources/img/favicons/favicon.ico">
+    <link rel="manifest" href="./resources/img/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./resources/img/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="vendors/bootstrap/bootstrap.less">
+    <link rel="stylesheet" href="resources/less/styles.less">
+    <link rel="stylesheet" href="vendors/weather-icons/css/weather-icons.min.css">
+    <link rel="stylesheet" href="vendors/weather-icons/css/weather-icons-wind.min.css">
+</head>
+<body>
+
+
+<div class="wrapper">
+
+
+    <div id="container-overlay">
+        <div class="overlay">
+            <div class="page-header text-center">
+                <h1>All<span>-</span>about<span>-</span>a<span>-</span>place
+                </h1>
+            </div>
+            <br>
+
+            <div id="input-container" class="">
+                <input id="input-search-place" placeholder="Start typing your address..." class="form-control">
+
+                <span class="input-group-btn" id="speak-button-container" style="display:none;">
+                    <button id="speak-button" class="btn btn-default" type="button"><i class="fa fa-microphone-slash"></i></button>
+                </span>
+            </div>
+            <p id="speak-hint" class="text-center text-muted" style="display: none; margin-top:10px">Say <strong>"Show me <i>{city name}</i>"</strong>, example: <strong>"Show me Paris"</strong></p>
+
+
+            <section id="tabs-container" style="display: none">
+                <ul id='navs-container' class="nav nav-tabs"></ul>
+                <div id="panels-container" class="tab-content"></div>
+            </section>
+
+            <p class="text-center text-muted no-margin">
+                By Corentin Thomasset. View on <a href="https://github.com/CorentinTh/all-about-a-place"
+                                                  title="Github repository"><i class="fab fa-github"></i></a>
+            </p>
+        </div>
+    </div>
+    <div id="container-map"></div>
+
+</div>
+
+
+<div id="review-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="text-center">Leave a review <span id="review-place-name"></span></h3>
+
+                <div class="row">
+
+                    <div id="review-form">
+                        <p class="text-center">You must be authenticated to leave a review. Please log-in:</p>
+                        <hr>
+                        <div id="review-form-credentials" class="row">
+                            <div>
+                                <input id="review-form-name" type="text" class="form-control"
+                                       placeholder="Your name" style="margin-bottom: 10px">
+                                <input id="review-form-email" type="email" class="form-control"
+                                       placeholder="Your email address">
+                            </div>
+
+                            <div class="or">
+                                <div>or</div>
+                            </div>
+
+                            <div>
+                                <a id="login-via-google" class="btn btn-block btn-social btn-google">
+                                    <span><i class="fab fa-google"></i></span>Sign in with Google
+                                </a>
+                                <a id="login-via-twitter" class="btn btn-block btn-social btn-twitter">
+                                    <span><i class="fab fa-twitter"></i></span>Sign in with Twitter
+                                </a>
+                                <a id="login-via-facebook" class="btn btn-block btn-social btn-facebook">
+                                    <span><i class="fab fa-facebook"></i></span>Sign in with Facebook
+                                </a>
+                                <a id="login-via-github" class="btn btn-block btn-social btn-github">
+                                    <span><i class="fab fa-github"></i></span>Sign in with Github
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div id="review-form-error" class="alert alert-danger" style="display: none;"></div>
+
+                        <textarea id="review-form-content" rows="10" maxlength="600" minlength="20"
+                                  class="form-control" placeholder="Your review of this city."></textarea>
+                    </div>
+                </div>
+
+
+                <div class="text-center">
+                    <br>
+                    <button id="review-form-submit" type="button" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<script src="resources/js/main.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-80142089-4"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-80142089-4');
+</script>
+
+</body>
+</html>
+

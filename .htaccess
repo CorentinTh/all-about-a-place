@@ -1,0 +1,15 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# Forcing HTTPS on all-about-a-place.corentin-thommaset.fr
+RewriteCond %{HTTP_HOST} ^(www\.)?all-about-a-place.corentin-thommaset\.fr$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect requests to the build folder
+RewriteCond %{REQUEST_URI} !(.*)build
+RewriteRule (.*) build/$1 [QSA,NC,L]
+
+# Redirect api requests to the server folder
+RewriteRule api/(.*) server/$1 [QSA,NC,L]
+
