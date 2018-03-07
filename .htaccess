@@ -2,7 +2,7 @@ Options +FollowSymLinks
 RewriteEngine On
 
 # Forcing HTTPS on all-about-a-place.corentin-thommaset.fr
-RewriteCond %{HTTP_HOST} ^(www\.)?all-about-a-place.corentin-thommaset\.fr$ [NC]
+RewriteCond %{HTTP_HOST} ^(www\.)?all-about-a-place\.corentin-thomasset\.fr$ [NC]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
