@@ -6,10 +6,14 @@ RewriteCond %{HTTP_HOST} ^(www\.)?all-about-a-place\.corentin-thomasset\.fr$ [NC
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Redirect requests to the build folder
-RewriteCond %{REQUEST_URI} !(.*)build
+# Redirect slides and presentation requests to the presentation folder
+RewriteCond %{REQUEST_URI} presentation|slides
+RewriteRule ^(presentation|slides)/(.*) presentation/$2 [QSA,NC,L]
+
+# Redirect api request to the server folder
+RewriteCond %{REQUEST_URI} api
+RewriteRule ^api/(.*) server/$1 [QSA,NC,L]
+
+# Redirect root requests to the build folder
+RewriteCond %{REQUEST_URI} !(.*)build(.*)
 RewriteRule (.*) build/$1 [QSA,NC,L]
-
-# Redirect api requests to the server folder
-RewriteRule api/(.*) server/$1 [QSA,NC,L]
-
