@@ -37,33 +37,35 @@ The purpose of such implementation is to not hard-code my API keys and credentia
 
 ### Technologies used
 #### APIs
-* **OpenWeather** (two endpoints: *current* and *forecast*)
-* **Twitter**
-* **IBM natural language understanding**
-* **Flickr**
-* **Wikipedia**
-* **Google Maps**
+* OpenWeather (two endpoints: *current* and *forecast*)
+* Twitter
+* IBM natural language understanding
+* Flickr
+* Wikipedia
+* Google Maps
     * Maps
     * Autocomplete
     * Geocode
-* **Firebase**
-* **OAuth2** (for reviews login)
-    * **Twitter**
-    * **Facebook**
-    * **Google**
-    * **Github**
+* Firebase
+* OAuth2 (for reviews login)
+    * Twitter
+    * Facebook
+    * Google
+    * Github
+* HTML5 Speech recognition API
+* HTML5 Geolocation API
 * (+ Google Analytics)
 
 #### View
-* **Bootstrap**
-* **Font-awesome**
-* **Weather icons**
-* **Chart.js**
+* Bootstrap
+* Font-awesome
+* Weather icons
+* Chart.js
 
 #### Other dependencies
-* **JQuery**
-* **is.js**
-* **moment.js**
+* JQuery
+* is.js
+* moment.js
 
 #### Dev
 I used **[parcel bundler](https://github.com/parcel-bundler/parcel)** for building the application. It's a blazing fast, zero configuration web application bundler which I strongly recommend. It has allowed me to use **Less** and **PostCss** without configuration nor file watcher setup.
