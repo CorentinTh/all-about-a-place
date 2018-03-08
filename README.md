@@ -60,7 +60,7 @@ The purpose of such implementation is to not hard-code my API keys and credentia
 * **Weather icons**
 * **Chart.js**
 
-### Other dependencies
+#### Other dependencies
 * **JQuery**
 * **is.js**
 * **moment.js**
