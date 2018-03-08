@@ -74,7 +74,7 @@ export default class ReviewManager {
                 return;
             }
 
-            this.firebaseManager.writeReviewToDB(this.place, content, credentials.name, credentials.name);
+            this.firebaseManager.writeReviewToDB(this.place, content, credentials.name, credentials.email);
             this.onSuccessfullyCreatedReview(credentials.name, content);
 
         }

@@ -85,7 +85,7 @@ export default class FirebaseManager {
         firebase.database().ref(`reviews/${city}/${newKey}`).set({
             content: review,
             username: name || this.user.displayName,
-            email: name || this.user.email,
+            email: email || this.user.email,
             timestamp: Date.now()
         });
     }
