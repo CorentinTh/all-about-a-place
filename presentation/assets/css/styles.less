@@ -1,3 +1,51 @@
-html{
-    color: #1d1d1d;
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+@font-face {
+    font-family: 'Lemon-Milk';
+    src: url('../font/LemonMilk.woff2') format('woff2'),
+    url('../font/LemonMilk.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
+
+@font-text: 'Nunito', 'Helvetica Neue', 'Helvetica', Calibri, sans-serif;
+@font-heading: 'Lemon-Milk', @font-text;
+
+@primary: #303941;
+@secondary: #95a5a6;
+@success: #5fcf80;
+@info: #3498DB;
+@warning: #F39C12;
+@danger: #E74C3C;
+@light: #ecf0f1;
+@dark: #7b8a8b;
+
+body{
+    font-family: @font-text;
+    color: @primary;
+}
+
+.remark-slide-content {
+    padding: 40px 120px;
+    font-size: 25px !important;
+}
+
+h2, h3, h4, h5{
+    font-weight: 300;
+
+}
+
+h1{
+    font-family: @font-heading;
+    font-weight: 400;
+}
+
+.green{
+    color: @success;
+}
+
+.subtitle{
+    font-size: 31px;
+}
+
+
