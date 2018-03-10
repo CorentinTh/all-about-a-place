@@ -1,7 +1,14 @@
 import is from 'is_js'
 
+/**
+ * Class to easily send a request to the proxy server
+ */
 export default class ProxyRequest {
 
+    /**
+     * Constrctor of the class
+     * @param baseUrl The base url of the proxy server
+     */
     constructor(baseUrl) {
         this.api = '';
         this.baseUrl = baseUrl;
@@ -12,23 +19,43 @@ export default class ProxyRequest {
         };
     }
 
+    /**
+     * Method to get a response from an api through the proxy
+     * @param api
+     * @returns {ProxyRequest}
+     */
     get(api) {
         this.api = api;
         this.settings.type = 'get';
         return this;
     }
 
+    /**
+     * Method to post data to an api through the proxy
+     * @param api
+     * @returns {ProxyRequest}
+     */
     post(api) {
         this.api = api;
         this.settings.type = 'post';
         return this;
     }
 
+    /**
+     * Set the data to set or post
+     * @param data
+     * @returns {ProxyRequest}
+     */
     data(data) {
         this.settings.data = data;
         return this;
     }
 
+    /**
+     * Setting the success callback
+     * @param callback
+     * @returns {ProxyRequest}
+     */
     onSuccess(callback) {
         if (callback && is.function(callback)) {
 
@@ -53,11 +80,19 @@ export default class ProxyRequest {
         return this;
     }
 
+    /**
+     * Setting the error callback
+     * @param callback
+     * @returns {ProxyRequest}
+     */
     onError(callback) {
         this.settings.error = callback;
         return this;
     }
 
+    /**
+     * Handle http errors
+     */
     setErrorHandler() {
         this.settings.statusCode = {
             400: (url) => { console.log("Proxy manager: Error 400 bad request " + url); },
@@ -67,11 +102,18 @@ export default class ProxyRequest {
         }
     }
 
+    /**
+     * Getting the complete url
+     * @returns {ProxyRequest}
+     */
     setUrl() {
         this.settings.url = this.baseUrl.replace(/^\/+|\/+$/g, '') + "/" + this.api.replace(/^\/+|\/+$/g, '');
         return this;
     }
 
+    /**
+     * Execute the request to the proxy
+     */
     execute() {
         this.setUrl();
         $.ajax(this.settings);

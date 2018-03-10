@@ -1,11 +1,15 @@
-/**
- * Created by Corentin THOMASSET on 26/02/2018.
- */
-
 import Marker from './Marker';
 
+/**
+ * Class to handle the map element
+ */
 export default class Map {
 
+    /**
+     * Creator of the class
+     * @param google
+     * @param id
+     */
     constructor(google, id) {
         this.id = id;
         this.google = google;
@@ -17,6 +21,9 @@ export default class Map {
         this.initMap();
     }
 
+    /**
+     * Function to initialize the map instance
+     */
     initMap() {
         this.map = new this.google.maps.Map(this.element, {
             zoom: 4,
@@ -29,10 +36,20 @@ export default class Map {
         });
     }
 
+    /**
+     * Setting the center of the map
+     * @param center
+     */
     setCenter(center) {
         this.map.panTo(center);
     }
 
+    /**
+     * Method to offset the center of the map
+     * @param center
+     * @param offsetX
+     * @param offsetY
+     */
     offsetCenter(center, offsetX, offsetY) {
         const scale = Math.pow(2, this.map.getZoom());
 
@@ -49,6 +66,10 @@ export default class Map {
         this.setCenter(newCenter);
     }
 
+    /**
+     * Method to offset the center one forth of the window to the left, except if the window width is below 576px to make it responsive
+     * @param center
+     */
     centerOneForthLeft(center) {
         if($(window).width() <= 576){
             this.offsetCenter(center, 0, 0);
@@ -57,11 +78,22 @@ export default class Map {
         }
     }
 
+    /**
+     * Method to set the zoom level
+     * @param level
+     */
     setZoom(level) {
         this.map.setZoom(level);
     }
 
 
+    /**
+     * Method to set a marker on the map
+     * @param coordinates
+     * @param color
+     * @param settings
+     * @returns {Marker|*}
+     */
     setMarker(coordinates, color, settings) {
         settings.map = this.map;
         settings.position = coordinates;
@@ -77,6 +109,9 @@ export default class Map {
         return marker.getGoogleMarker();
     }
 
+    /**
+     * Method to remove all markers on the map
+     */
     removeMarkers(){
         this.markers.forEach((marker) => {
             marker.getGoogleMarker().setMap(null);

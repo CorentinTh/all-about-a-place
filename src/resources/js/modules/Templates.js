@@ -1,7 +1,3 @@
-/**
- * Created by Corentin THOMASSET on 25/02/2018.
- */
-
 import moment from 'moment'
 
 moment.updateLocale('en', {
@@ -23,10 +19,12 @@ moment.updateLocale('en', {
     }
 });
 
-
+/**
+ * Class that manages the html templates for various elements
+ */
 export default class Templates {
 
-    static getReviewTemplate(review){
+    static getReviewTemplate(review) {
         return `
 <div class="review-container">
     <div><strong>${review.username}</strong><span class="text-muted"> - ${moment(review.timestamp).fromNow()}</span></div>
@@ -36,7 +34,7 @@ export default class Templates {
 `;
     }
 
-    static getReviewsHeader(){
+    static getReviewsHeader() {
         return `
 <div id="review-header">
     <div class="text-center"><strong>Reviews </strong> are appreciation feedback given by real users</div>
@@ -68,7 +66,7 @@ export default class Templates {
 `;
     }
 
-    static getSentimentTable(data){
+    static getSentimentTable(data) {
 
         let toPercent = (nb) => Math.floor(nb * 100);
 
@@ -98,7 +96,7 @@ export default class Templates {
 `;
     }
 
-    static getSentimentAnalysisOverview(){
+    static getSentimentAnalysisOverview() {
         return `
 <div id="tweet-sentiment-overview-container">
     <div class="text-center" id="tweet-sentiment-overview-no-sentiment"><i>No sentiment analysis could be proceed for the given tweets.</i></div>
@@ -245,45 +243,3 @@ export default class Templates {
 </div>`;
     }
 }
-
-
-/*
- return `
- <div class='current-weather'>
- <div>
- <div class='w-icon'>
- ${icon}
- </div>
- <div class='w-info'>
- <strong>${data.weather[0].description.capitalize()}</strong>
- <p class='temp'>${data.main.temp}°C</p>
- </div>
- </div>
- <div>
- <div class='w-details'>
- <table>
- <tr>
- <td class='w-details-head'>Wind</td>
- <td>${data.wind.speed} m/s <i class='wi wi-wind towards-${data.wind.deg}-deg'></i> ${data.wind.deg}°</td>
- </tr>
- <tr>
- <td class='w-details-head'>Humidity</td>
- <td>${data.main.humidity}%</td>
- </tr>
- <tr>
- <td class='w-details-head'>Pressure</td>
- <td>${data.main.pressure} hpa</td>
- </tr>
- <tr>
- <td class='w-details-head'>Cloudiness</td>
- <td>${data.clouds.all}%</td>
- </tr>
- </table>
- </div>
- </div>
- </div>
- `;
-
-
-
- */

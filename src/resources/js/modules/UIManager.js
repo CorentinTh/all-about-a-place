@@ -1,14 +1,18 @@
-/**
- * Created by Corentin THOMASSET on 23/02/2018.
- */
-
 import ReviewManager    from './ReviewManager';
 import Templates        from './Templates';
 import Slideshow        from './Slideshow';
 import Chart            from 'chart.js/dist/Chart.bundle.min';
 
+/**
+ * Class that manages the user interface
+ */
 export default class UIManager {
 
+    /**
+     * Constructor of the class
+     * @param tabscontainer
+     * @param firebaseManager
+     */
     constructor(tabscontainer, firebaseManager) {
         this.firebaseManager = firebaseManager;
         this.reviewManager = new ReviewManager(this.firebaseManager, this);
@@ -41,10 +45,18 @@ export default class UIManager {
         }
     }
 
+    /**
+     * Method that set the wikipedia information in the UI
+     * @param text
+     */
     setWikipediaText(text) {
         this.setInTab('wikipedia', text);
     }
 
+    /**
+     * Method that set the current weather information in the UI
+     * @param data
+     */
     setWeatherCurrent(data) {
         let html = '';
 
@@ -58,7 +70,10 @@ export default class UIManager {
         this.setInTab('weather', html, 'prepend');
     }
 
-
+    /**
+     * Method that set the weather forecast information in the UI
+     * @param data
+     */
     setWeatherForecast(data) {
         let html = '';
 
@@ -124,6 +139,12 @@ export default class UIManager {
 
     }
 
+    /**
+     * Method that format the sentiment analysis of a tweet into a table
+     * @param sentiments
+     * @param tweetId
+     * @param error
+     */
     setSentimentToTweet(sentiments, tweetId, error) {
 
         const sentimentElement = $('#tweet-id-' + tweetId).find('.tweet-sentiments')[0];
@@ -137,6 +158,10 @@ export default class UIManager {
 
     }
 
+    /**
+     * Method that set the tweets information in the UI
+     * @param data
+     */
     setTweets(data) {
 
         let html = Templates.getSentimentAnalysisOverview();
@@ -150,6 +175,10 @@ export default class UIManager {
         this.setInTab('twitter', html);
     }
 
+    /**
+     * Method that set the Flickr images in the UI
+     * @param data
+     */
     setFlickr(data) {
         if (data.length > 0) {
             let html = Templates.getSlideshow();
@@ -169,8 +198,11 @@ export default class UIManager {
 
     }
 
+    /**
+     * Method that updates the sentiment analysis averages
+     * @param sentiments
+     */
     updateSentimentAnalysisOverview(sentiments) {
-
         $('#tweet-sentiment-overview-no-sentiment').hide();
         $('#tweet-sentiment-overview').show();
 
@@ -187,11 +219,46 @@ export default class UIManager {
         }
     }
 
+    /**
+     * Method that display the reviews of a city
+     * @param reviews
+     */
+    setReviews(reviews){
+        let html = Templates.getReviewsHeader();
 
+        console.log(reviews);
+
+        let hasReview = false;
+        for (let reviewID in reviews){
+            if(reviews.hasOwnProperty(reviewID)){
+                html += Templates.getReviewTemplate(reviews[reviewID]);
+                hasReview = true;
+            }
+        }
+
+        if(!hasReview){
+            html += '<div class="text-center"><i>No reviews for this city</i></div>';
+        }
+
+        this.setInTab('reviews', html);
+        $('#reviews-add-review-button').click(this.reviewManager.onAddReview.bind(this.reviewManager));
+
+    }
+
+    /**
+     * Method to remove an element
+     * @param id
+     */
     remove(id) {
         $(id).remove();
     }
 
+    /**
+     * Method that permit to set information into a tab
+     * @param tabName
+     * @param text
+     * @param append
+     */
     setInTab(tabName, text, append) {
         const config = this.tabConfig[tabName];
 
@@ -219,29 +286,10 @@ export default class UIManager {
         }
     }
 
-    setReviews(reviews){
-        let html = Templates.getReviewsHeader();
-
-        console.log(reviews);
-
-        let hasReview = false;
-        for (let reviewID in reviews){
-            if(reviews.hasOwnProperty(reviewID)){
-                html += Templates.getReviewTemplate(reviews[reviewID]);
-                hasReview = true;
-            }
-        }
-
-        if(!hasReview){
-            html += '<div class="text-center"><i>No reviews for this city</i></div>';
-        }
-
-        this.setInTab('reviews', html);
-        $('#reviews-add-review-button').click(this.reviewManager.onAddReview.bind(this.reviewManager));
-
-    }
-
-
+    /**
+     * Method that create a tab given a tab name
+     * @param tabName
+     */
     createTab(tabName) {
         $(this.tabsContainerID).show();
 
@@ -254,6 +302,9 @@ export default class UIManager {
         $(tabsContainer).append(`<div class='tab-pane fade ${amount == 0 ? 'active in' : ''}' id='tab-panel-${tabName}'></div>`);
     }
 
+    /**
+     * Method that removes all the tabs
+     */
     cleanTabs() {
         const tabsContainer = $(this.tabsContainerID).find(this.panelsContainerID)[0];
         const navsContainer = $(this.tabsContainerID).find(this.navsContainerID)[0];

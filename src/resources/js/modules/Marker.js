@@ -1,9 +1,13 @@
 /**
- * Created by Corentin THOMASSET on 27/02/2018.
+ * Class that permits to create customisable markers
  */
-
 export default class Marker {
 
+    /**
+     * Constructor that requires the google object
+     * @param google
+     * @param settings Object containing the settings
+     */
     constructor(google, settings) {
         this.google = google;
 
@@ -15,6 +19,11 @@ export default class Marker {
         this.marker = this.createMarker(settings)
     }
 
+    /**
+     * To change the marker color
+     * @param color
+     * @returns {google.maps.MarkerImage}
+     */
     getMarkerImage(color) {
         return new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color,
             new google.maps.Size(21, 34),
@@ -22,10 +31,19 @@ export default class Marker {
             new google.maps.Point(10, 34));
     }
 
+    /**
+     * To create the marker
+     * @param settings
+     * @returns {Marker}
+     */
     createMarker(settings) {
         return new this.google.maps.Marker(settings);
     }
 
+    /**
+     * To get the google marker element
+     * @returns {Marker|*}
+     */
     getGoogleMarker(){
         return this.marker;
     }

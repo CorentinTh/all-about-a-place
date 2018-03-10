@@ -1,21 +1,23 @@
-/**
- * Created by Corentin THOMASSET on 23/02/2018.
- */
-
-
 import ProxyRequest from './ProxyRequest'
 
+/**
+ * Class that add another level of abstraction for the requests to the proxy server
+ */
 export default class ApiManager {
 
+    /**
+     * Constructor
+     * @param proxyBase The base
+     */
     constructor(proxyBase) {
         this.PROXY_BASE = proxyBase;
     }
 
     /**
-     * Method to get sentiment analysis of some text
-     * @param text The text that must be analysed
-     * @param callback The callback that will handle the response
-     * @param targets An array of keywords
+     * Method to get the sentiment analysis of a string
+     * @param text
+     * @param callback
+     * @param targets
      */
     getSentimentAnalysis(text, callback, targets = undefined) {
         const data = {
@@ -37,9 +39,9 @@ export default class ApiManager {
     }
 
     /**
-     *
-     * @param placename The name o the place to get the wikipedia article
-     * @param callback The callback that will handle the response
+     * Method to get wikipedia information of a place using Geonames API
+     * @param placename
+     * @param callback
      */
     getWikipediaByPlaceName(placename, callback) {
 
@@ -59,6 +61,11 @@ export default class ApiManager {
             .execute();
     }
 
+    /**
+     * Method to get wikipedia information of a place using Wikipedia API
+     * @param query
+     * @param callback
+     */
     getWikipedia(query, callback) {
         new ProxyRequest(this.PROXY_BASE)
             .get('wikipedia')
@@ -78,6 +85,11 @@ export default class ApiManager {
             .execute();
     }
 
+    /**
+     * Method to get the current weather of a place
+     * @param place
+     * @param callback
+     */
     getWeatherCurrent(place, callback) {
         new ProxyRequest(this.PROXY_BASE)
             .get('open-weather-current')
@@ -95,6 +107,11 @@ export default class ApiManager {
             .execute();
     }
 
+    /**
+     * Method to get the weather forecast of a place
+     * @param place
+     * @param callback
+     */
     getWeatherForecast(place, callback) {
         new ProxyRequest(this.PROXY_BASE)
             .get('open-weather-forecast')
@@ -112,6 +129,11 @@ export default class ApiManager {
             .execute();
     }
 
+    /**
+     * Method to get the tweet for a keyword
+     * @param keyword
+     * @param callback
+     */
     getTweets(keyword, callback) {
         new ProxyRequest(this.PROXY_BASE)
             .get('twitter')
@@ -129,6 +151,11 @@ export default class ApiManager {
             .execute();
     }
 
+    /**
+     * Method to get Flickr images for given coordinates
+     * @param coords
+     * @param callback
+     */
     getFlickr(coords, callback) {
         new ProxyRequest(this.PROXY_BASE)
             .get('flickr')

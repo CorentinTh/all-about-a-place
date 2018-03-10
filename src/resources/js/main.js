@@ -1,3 +1,4 @@
+'use strict';
 
 import 'bootstrap';
 import '../../vendors/font-awesome/font-awesome'

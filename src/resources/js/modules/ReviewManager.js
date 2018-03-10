@@ -1,12 +1,16 @@
-/**
- * Created by Corentin THOMASSET on 06/03/2018.
- */
-
 import Templates    from './Templates';
 import is           from 'is_js';
 
+/**
+ * Class to mange the review system
+ */
 export default class ReviewManager {
 
+    /**
+     * Constructor of the class
+     * @param firebaseManager
+     * @param uiManager
+     */
     constructor(firebaseManager, uiManager) {
         this.firebaseManager = firebaseManager;
         this.uiManager = uiManager;
@@ -23,15 +27,17 @@ export default class ReviewManager {
         this.initLoginListenners();
     }
 
-    setSubmitHandler(callback) {
-        this.callback = callback;
-    }
-
+    /**
+     * Method triggered when the user wants to add a review
+     */
     onAddReview() {
         $('#review-place-name').html(' about <strong>' + this.place + '</strong>');
         this.showModal();
     }
 
+    /**
+     * Method triggered when the user has submitted a review
+     */
     onReviewSubmitted() {
         const content = this.getContent();
 
@@ -80,6 +86,11 @@ export default class ReviewManager {
         }
     }
 
+    /**
+     * Method triggered when a review has been successfully added
+     * @param name
+     * @param content
+     */
     onSuccessfullyCreatedReview(name, content) {
         this.closeModal();
 
@@ -96,16 +107,27 @@ export default class ReviewManager {
             }), 'append');
     }
 
+    /**
+     * Method to set an error message on the 'add a review' form
+     * @param text
+     */
     setError(text) {
         $('#review-form-error').append(text);
         $('#review-form-error').show();
     }
 
+    /**
+     * Method to remove error messages on the 'add a review' form
+     */
     removeErrors() {
         $('#review-form-error').empty();
         $('#review-form-error').hide();
     }
 
+    /**
+     * Method to get the credential the user has entered in the form
+     * @returns {{email: {String}, name: {String}}}
+     */
     getCredentials() {
         return {
             email: $(this.reviewEmailElement).val(),
@@ -113,24 +135,40 @@ export default class ReviewManager {
         }
     }
 
+    /**
+     * Get the content of the review
+     * @returns {String}
+     */
     getContent() {
         return $(this.reviewContentElement).val();
     }
 
+    /**
+     * Show the modal of the review form
+     */
     showModal() {
         $(this.modalElement).modal('show');
     }
 
+    /**
+     * Hide the modal of the review form
+     */
     closeModal() {
         $(this.modalElement).modal('hide');
     }
 
+    /**
+     * Method triggered when the user has logged in
+     * @param user
+     */
     onLoggedIn(user) {
-        console.log(user);
         $('#review-form-credentials').empty();
         $('#review-form-credentials').html(`<div class="text-center">Your are logged as <strong>${user.displayName}</strong></div>`);
     }
 
+    /**
+     * Method that binds the button to the proper firebase login function
+     */
     initLoginListenners() {
         $('#login-via-google').click(this.firebaseManager.loginViaGoogle.bind(this.firebaseManager));
         $('#login-via-facebook').click(this.firebaseManager.loginViaFacebook.bind(this.firebaseManager));

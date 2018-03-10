@@ -1,7 +1,6 @@
 /**
- * Created by Corentin THOMASSET on 06/03/2018.
+ * Class to retrieve the current user location
  */
-
 export default class Geolocation {
 
     constructor() {
@@ -12,6 +11,10 @@ export default class Geolocation {
         return this._isAvailable
     }
 
+    /**
+     * Method to retrieve the user current location
+     * @param callback
+     */
     getUserLocation(callback) {
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log(position);

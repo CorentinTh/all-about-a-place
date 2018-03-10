@@ -1,7 +1,3 @@
-/**
- * Created by Corentin THOMASSET on 23/02/2018.
- */
-
 import InputAutocomplete    from './InputAutocomplete';
 import SpeechRecognition    from './SpeechRecognition';
 import FirebaseManager      from './FirebaseManager';
@@ -10,18 +6,28 @@ import UIManager            from './UIManager';
 import ApiManager           from './ApiManager';
 import Map                  from './Map';
 
+/**
+ * Main class of the application
+ */
 export default class ApplicationManager {
 
+    /**
+     * Constructor
+     * @param params
+     */
     constructor(params) {
         this.params = params;
     }
 
+    /**
+     * Method that inits the components of the application
+     * @param google
+     * @param firebaseConfig
+     */
     initComponents(google, firebaseConfig) {
         this.google = google;
 
         this.firebaseManager = new FirebaseManager(firebaseConfig);
-
-        //this.firebaseManager.loginViaGithub();
 
         this.speechRecognition = new SpeechRecognition(this);
         this.geolocation = new Geolocation();
@@ -29,7 +35,6 @@ export default class ApplicationManager {
         if (this.geolocation.isAvailable()) {
             this.geolocation.getUserLocation(this.onGetUserLocation.bind(this));
         }
-        //console.log(this.speechRecognition.isAvailable());
 
         this.apiManager = new ApiManager(this.params.baseUrl);
         this.uiManager = new UIManager('#tabs-container', this.firebaseManager);
@@ -40,9 +45,12 @@ export default class ApplicationManager {
             .setParams({types: ['(cities)']})
             .init(google);
         this.map = new Map(google, 'container-map');
-        //this.apiManager.getSentimentAnalysis('', (result) => {console.log(result)})
     }
 
+    /**
+     * Callback triggered when we retrieve the user location
+     * @param coords
+     */
     onGetUserLocation(coords) {
         const geocoder = new this.google.maps.Geocoder();
 
@@ -58,9 +66,12 @@ export default class ApplicationManager {
                 this.mainInput.setText(place);
             }
         });
-
     }
 
+    /**
+     * Callback when the user has chosen a location to get information
+     * @param data
+     */
     onPlaceChose(data) {
         const place = data.name;
 
@@ -100,10 +111,18 @@ export default class ApplicationManager {
 
     }
 
+    /**
+     * Method triggered when the reviews are retrieved
+     * @param reviews
+     */
     onReviews(reviews){
         this.uiManager.setReviews(reviews);
     }
 
+    /**
+     * Method triggered when the user has dragged the marker
+     * @param position
+     */
     onMarkerDragged(position) {
         const geocoder = new this.google.maps.Geocoder();
 
@@ -121,6 +140,10 @@ export default class ApplicationManager {
         });
     }
 
+    /**
+     * Method triggered when we get the result for the wikipedia search
+     * @param data
+     */
     onWikipediaSearch(data) {
         if (!data.hasError && data.hasOwnProperty("extract")) {
             let sanitizedExtract = data.extract.replace(/\( listen\)/g, '');
@@ -132,6 +155,10 @@ export default class ApplicationManager {
         }
     }
 
+    /**
+     * Method triggered when we get the current weather
+     * @param data
+     */
     onWeatherCurrent(data) {
         if (data.hasError) {
             this.uiManager.setWeatherCurrent("<i>No information found</i>");
@@ -140,6 +167,10 @@ export default class ApplicationManager {
         }
     }
 
+    /**
+     * Method triggered when we get the weather forecast
+     * @param data
+     */
     onWeatherForecast(data) {
         if (data.hasError) {
             this.uiManager.setWeatherForecast("<i>No information found</i>");
@@ -148,6 +179,10 @@ export default class ApplicationManager {
         }
     }
 
+    /**
+     * Method triggered when we get the tweets
+     * @param data
+     */
     onTweets(data) {
         if (data.hasError) {
             this.uiManager.setTweets("<i>No information found</i>");
@@ -171,6 +206,10 @@ export default class ApplicationManager {
         }
     }
 
+    /**
+     * Method triggered when we get the flickr images
+     * @param data
+     */
     onFlickr(data) {
         if (data.hasError) {
             this.uiManager.setFlickr("<i>No information found</i>");
