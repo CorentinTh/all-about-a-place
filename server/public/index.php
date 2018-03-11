@@ -1,39 +1,29 @@
 <?php
 
-define('PRODUCTION', false);
+define('PRODUCTION', true);
 
-$allowed_hosts = array(
-	'localhost:1234',
-	'corentin-thomasset.fr',
-	'api-project.local',
-	'all-about-a-place.corentin-thomasset.fr'
-);
-//$allowed_hosts = array('corentin-thomasset.fr');
+if (PRODUCTION) {
+	$allowed_hosts = array(
+		'localhost:1234',
+		'corentin-thomasset.fr',
+		'api-project.local',
+		'all-about-a-place.corentin-thomasset.fr'
+	);
 
+	$fromBadHost = !isset($_SERVER['HTTP_HOST']) || !in_array($_SERVER['HTTP_HOST'], $allowed_hosts);
+	$notAjaxRequest = !isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest';
+	$rootRequest = isset($_SERVER['REQUEST_URI']) && preg_match('/^\/(api|server)\/*$/', $_SERVER['REQUEST_URI']);
 
-if(PRODUCTION){
-	if (!isset($_SERVER['HTTP_HOST']) || !in_array($_SERVER['HTTP_HOST'], $allowed_hosts)) {
+	if ($fromBadHost || $notAjaxRequest || $rootRequest) {
 		header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
+		include '401.php';
 		exit;
-	}else{
-		if (isset($_SERVER['REQUEST_URI']) && preg_match('/^\/(api|server)\/(.*)/', $_SERVER['REQUEST_URI'])){
-			header($_SERVER['SERVER_PROTOCOL'] . ' 401 Unauthorized');
-			include '401.php';
-			exit;
-		}
 	}
 
-	header("Access-Control-Allow-Origin: http://all-about-a-place.corentin-thomasset.fr");
-}else{
+	header("Access-Control-Allow-Origin: https://all-about-a-place.corentin-thomasset.fr");
+} else {
 	header("Access-Control-Allow-Origin: *");
 }
-
-
-
-
-//header('content-type: application/json; charset=utf-8');
-header("Access-Control-Allow-Origin: http://localhost:1234");
-//header("Access-Control-Allow-Origin: http://corentin-thomasset.fr");
 
 include_once("../assets/includes.php");
 

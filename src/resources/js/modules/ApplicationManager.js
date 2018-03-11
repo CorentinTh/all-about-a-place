@@ -115,7 +115,7 @@ export default class ApplicationManager {
      * Method triggered when the reviews are retrieved
      * @param reviews
      */
-    onReviews(reviews){
+    onReviews(reviews) {
         this.uiManager.setReviews(reviews);
     }
 
@@ -191,17 +191,21 @@ export default class ApplicationManager {
             const tweets = data.statuses;
 
             this.uiManager.setTweets(tweets);
+            let i = 0;
 
             for (const tweet of tweets) {
-                this.apiManager.getSentimentAnalysis(tweet.text, (result) => {
-
-                    if (result.hasError) {
-                        this.uiManager.setSentimentToTweet({}, tweet.id, 'Cannot analyse the sentiments.');
-                    } else {
-                        this.uiManager.setSentimentToTweet(result.emotion.document.emotion, tweet.id);
-                        this.uiManager.updateSentimentAnalysisOverview(result.emotion.document.emotion);
-                    }
-                })
+                // Timeout needed to prevent ERR_SPDY_PROTOCOL_ERROR
+                setTimeout(() => {
+                    this.apiManager.getSentimentAnalysis(tweet.text, (result) => {
+                        console.log(result);
+                        if (result.hasError) {
+                            this.uiManager.setSentimentToTweet({}, tweet.id, 'Cannot analyse the sentiments.');
+                        } else {
+                            this.uiManager.setSentimentToTweet(result.emotion.document.emotion, tweet.id);
+                            this.uiManager.updateSentimentAnalysisOverview(result.emotion.document.emotion);
+                        }
+                    })
+                }, 200 * i++)
             }
         }
     }

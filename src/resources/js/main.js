@@ -15,7 +15,7 @@ let BASE_URL = '';
 if (location.host == 'localhost:1234') {
     BASE_URL = 'http://api-project.local/api/';
 } else {
-    BASE_URL = location.protocol + '//' + location.host + location.pathname + '/api/';
+    BASE_URL = location.protocol + '//' + location.host + location.pathname + 'api/';
     console.log = () => {};
 }
 
