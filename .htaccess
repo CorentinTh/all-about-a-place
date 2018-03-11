@@ -6,9 +6,9 @@ RewriteCond %{HTTP_HOST} ^(www\.)?all-about-a-place\.corentin-thomasset\.fr$ [NC
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Redirect slides and presentation requests to the presentation folder
-RewriteCond %{REQUEST_URI} presentation|slides
-RewriteRule ^(presentation|slides)/(.*) presentation/$2 [QSA,NC,L]
+# Redirect /slides and /presentation requests to my google slide
+Redirect /slides https://docs.google.com/presentation/d/1VvGobPvy45z36Sbnrx-ZqoG0lXsOmtUYG05eQfSO_FM/edit?usp=sharing
+Redirect /presentation https://docs.google.com/presentation/d/1VvGobPvy45z36Sbnrx-ZqoG0lXsOmtUYG05eQfSO_FM/edit?usp=sharing
 
 # Redirect api request to the server folder
 RewriteCond %{REQUEST_URI} api
