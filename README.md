@@ -31,9 +31,25 @@ As said previously, you can see people personal reviews for a place, but you can
 
 ## Technical aspect
 ### API requests
-The application uses a proxy server in order to secure API requests. The application send a request to the proxy, then the server send a request to the API and give back the result to the application.
- 
-The purpose of such implementation is to not hard-code my API keys and credentials in the front end of the application.
+The application embeds a proxy server written in PHP in order to secure API requests. The front end application send a request to the proxy, then the server send a request to the API and give back the result to the application.
+
+What would happen without the proxy server:
+
+![without-proxy-server](/src/resources/img/without-server.PNG?raw=true)
+
+And with it (what the application is currently doing):
+
+![wit-proxy-server](/src/resources/img/with-server.PNG?raw=true)
+
+
+The main advantages for such architecture:
+* Protection of the API keys. Since my API keys and credentials are all stored in the server, the client cannot see them and so he will not be able to reuse them.
+* Huge abstraction level for the request on the client side. To request information to the server, all my request all have the same aspect, for example :
+  * base-url.tld/api/**weather**?place=Helsinki
+  * base-url.tld/api/**wikipedia**?place=Helsinki
+  * base-url.tld/api/**tweets**?place=Helsinki
+* Easy maintenance. If I need to change API for a reason, I will just have to change a really small part in the server, and I don’t need to update my client code. I have one file per API so it’s really easy to maintain.
+* Filter requests and prevent spam. As my server acts as a really between the client and the API provider, I could make sure that the requests are ok and make sense, so I don’t bother the API with wrong requests.
 
 ### Technologies used
 #### APIs
