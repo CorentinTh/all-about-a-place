@@ -33,15 +33,6 @@ As said previously, you can see people personal reviews for a place, but you can
 ### API requests
 The application embeds a proxy server written in PHP in order to secure API requests. The front end application send a request to the proxy, then the server send a request to the API and give back the result to the application.
 
-What would happen without the proxy server:
-
-![without-proxy-server](/src/resources/img/without-server.PNG?raw=true)
-
-And with it (what the application is currently doing):
-
-![wit-proxy-server](/src/resources/img/with-server.PNG?raw=true)
-
-
 The main advantages for such architecture:
 * Protection of the API keys. Since my API keys and credentials are all stored in the server, the client cannot see them and so he will not be able to reuse them.
 * Huge abstraction level for the request on the client side. To request information to the server, all my request all have the same aspect, for example :
